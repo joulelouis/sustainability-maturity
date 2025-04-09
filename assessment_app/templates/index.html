@@ -10,7 +10,7 @@
         {% csrf_token %}
         {% for pillar, questions in assessment.items %}
         <fieldset>
-            <legend>{{ pillar }}</legend>
+            <h2>{{ pillar }}</h2>
             {% for q in questions %}
             {% with q_index=forloop.counter0 %}
             <div>
