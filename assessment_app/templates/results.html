@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Assessment Results</title>
+</head>
+<body>
+    <h1>Assessment Results</h1>
+    <h2>Overall Maturity Score: {{ overall_maturity }}</h2>
+    
+    <h3>Pillar Scores</h3>
+    <ul>
+        {% for pillar, score in pillar_scores.items %}
+        <li><strong>{{ pillar }}:</strong> {{ score }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Recommendations</h3>
+    <ul>
+        {% for pillar, rec in pillar_recommendations.items %}
+        <li><strong>{{ pillar }}:</strong> {{ rec }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Summary Insights</h3>
+    <ul>
+        {% for pillar, summary in summary_text.items %}
+        <li><strong>{{ pillar }}:</strong> {{ summary }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Visualization Data (JSON)</h3>
+    <pre>{{ scores_json }}</pre>
+    
+    <p><a href="{% url 'index' %}">Take the assessment again</a></p>
+</body>
+</html>

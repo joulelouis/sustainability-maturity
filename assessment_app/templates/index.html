@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sustainability Maturity Assessment</title>
+</head>
+<body>
+    <h1>Sustainability Maturity Assessment</h1>
+    <form method="POST" action="{% url 'results' %}">
+        {% csrf_token %}
+        {% for pillar, questions in assessment.items %}
+        <fieldset>
+            <legend>{{ pillar }}</legend>
+            {% for q in questions %}
+            {% with q_index=forloop.counter0 %}
+            <div>
+                <p><strong>{{ q.question }}</strong></p>
+                {% for key, option in q.options.items %}
+                <div>
+                    <input type="radio" id="{{ pillar }}_{{ q_index }}_{{ key }}" name="{{ pillar }}_{{ q_index }}" value="{{ key }}" required>
+                    <label for="{{ pillar }}_{{ q_index }}_{{ key }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+            {% endwith %}
+            {% endfor %}
+        </fieldset>
+        <br>
+        {% endfor %}
+        <button type="submit">Submit Assessment</button>
+    </form>
+</body>
+</html>
