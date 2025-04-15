@@ -3,6 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Assessment Results</title>
+    <!-- Include Chart.js library from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Ensure the chart container does not exceed 50% of viewport height */
+        #chartContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 100vh;
+            margin: 20px 0;
+        }
+        /* Make sure the canvas fits inside its container */
+        #scoresChart {
+            max-height: 100%;
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h1>Assessment Results</h1>
@@ -32,6 +49,53 @@
     <h3>Visualization Data (JSON)</h3>
     <pre>{{ scores_json }}</pre>
     
+    <!-- Chart container with restricted height -->
+    <div id="chartContainer">
+        <canvas id="scoresChart"></canvas>
+    </div>
+    
+    <!-- Chart.js Script -->
+    <script>
+        // Parse the JSON data passed from the view (escaped for JavaScript)
+        var scores = JSON.parse('{{ scores_json|escapejs }}');
+
+        // Extract labels (pillars) and data values (scores)
+        var labels = Object.keys(scores);
+        var dataValues = Object.values(scores);
+    
+        // Create the bar chart using Chart.js.
+        var ctx = document.getElementById('scoresChart').getContext('2d');
+        var scoresChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Pillar Scores',
+                    data: dataValues,
+                    backgroundColor: 'rgba(193, 11, 69, 0.83)', // semi-transparent fill
+                    borderColor: 'rgb(142, 9, 75)',         // solid border
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5  // Score range is 1 to 5
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+    </script>
+    
     <p><a href="{% url 'index' %}">Take the assessment again</a></p>
 </body>
 </html>
+
+
+
